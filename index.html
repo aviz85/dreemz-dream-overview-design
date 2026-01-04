@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dream Overview Screen | Dreemz Design</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-deep: #0a0a0c;
+      --bg-elevated: #121215;
+      --bg-card: #1a1a1f;
+      --dream-glow-start: #ff7b7b;
+      --dream-glow-mid: #e85d9c;
+      --dream-glow-end: #c94b9c;
+      --gold-soft: #f4d48a;
+      --path-teal: #5eafb7;
+      --text-primary: #f5f5f7;
+      --text-secondary: #a8a8b3;
+      --text-muted: #6b6b78;
+      --font-dream: 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'Plus Jakarta Sans', -apple-system, sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      height: auto;
+      overflow-y: auto;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg-deep);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    /* Ambient background */
+    .page-bg {
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 100% 80% at 50% -20%, rgba(232, 93, 156, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse 80% 60% at 0% 100%, rgba(94, 175, 183, 0.06) 0%, transparent 50%),
+        radial-gradient(ellipse 60% 40% at 100% 50%, rgba(201, 75, 156, 0.04) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(10, 10, 12, 0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .logo {
+      font-family: var(--font-dream);
+      font-size: 24px;
+      font-weight: 500;
+      background: linear-gradient(135deg, var(--dream-glow-start), var(--dream-glow-end));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--text-primary);
+    }
+
+    .nav-links a.active {
+      color: var(--dream-glow-mid);
+    }
+
+    /* Hero section */
+    .hero {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 120px 40px 80px;
+      gap: 80px;
+    }
+
+    .hero-content {
+      max-width: 480px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: rgba(232, 93, 156, 0.1);
+      border: 1px solid rgba(232, 93, 156, 0.2);
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--dream-glow-mid);
+      margin-bottom: 24px;
+    }
+
+    .hero-title {
+      font-family: var(--font-dream);
+      font-size: 56px;
+      font-weight: 500;
+      line-height: 1.1;
+      margin-bottom: 24px;
+    }
+
+    .hero-title span {
+      background: linear-gradient(135deg, var(--dream-glow-start), var(--dream-glow-end));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-description {
+      font-size: 18px;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      margin-bottom: 40px;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 16px;
+    }
+
+    .btn {
+      padding: 14px 28px;
+      border-radius: 12px;
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--dream-glow-start), var(--dream-glow-end));
+      color: white;
+      border: none;
+      box-shadow: 0 4px 20px rgba(232, 93, 156, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(232, 93, 156, 0.4);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text-primary);
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.05);
+      border-color: rgba(255,255,255,0.25);
+    }
+
+    /* Phone mockup */
+    .phone-showcase {
+      position: relative;
+    }
+
+    .phone-glow {
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(232, 93, 156, 0.2) 0%, transparent 60%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      filter: blur(60px);
+      animation: pulse-glow 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+      50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); }
+    }
+
+    .phone-frame {
+      position: relative;
+      width: 320px;
+      height: 660px;
+      background: var(--bg-deep);
+      border-radius: 44px;
+      padding: 12px;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.1),
+        0 25px 80px rgba(0,0,0,0.5),
+        inset 0 0 0 1px rgba(255,255,255,0.05);
+    }
+
+    .phone-notch {
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 28px;
+      background: var(--bg-deep);
+      border-radius: 0 0 20px 20px;
+      z-index: 10;
+    }
+
+    .phone-screen {
+      width: 100%;
+      height: 100%;
+      border-radius: 36px;
+      overflow: hidden;
+      background: var(--bg-deep);
+    }
+
+    .phone-screen iframe {
+      width: 375px;
+      height: 812px;
+      border: none;
+      transform: scale(0.785);
+      transform-origin: top left;
+    }
+
+    /* Floating elements */
+    .floating-card {
+      position: absolute;
+      background: var(--bg-card);
+      border-radius: 16px;
+      padding: 16px 20px;
+      border: 1px solid rgba(255,255,255,0.05);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .floating-card-1 {
+      top: 10%;
+      right: -80px;
+      animation-delay: 0s;
+    }
+
+    .floating-card-2 {
+      bottom: 15%;
+      left: -100px;
+      animation-delay: 2s;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+
+    .floating-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .floating-value {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .floating-value .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--dream-glow-mid);
+    }
+
+    /* Scroll indicator */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-muted);
+      font-size: 12px;
+      animation: bounce 2s ease-in-out infinite;
+    }
+
+    .scroll-indicator svg {
+      width: 24px;
+      height: 24px;
+      stroke: var(--text-muted);
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(10px); }
+    }
+
+    /* Features section */
+    .features {
+      position: relative;
+      z-index: 1;
+      padding: 120px 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 80px;
+    }
+
+    .section-label {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--dream-glow-mid);
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-family: var(--font-dream);
+      font-size: 42px;
+      font-weight: 500;
+      margin-bottom: 16px;
+    }
+
+    .section-description {
+      font-size: 18px;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .feature-card {
+      background: var(--bg-card);
+      border-radius: 24px;
+      padding: 32px;
+      border: 1px solid rgba(255,255,255,0.05);
+      transition: all 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(232, 93, 156, 0.2);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+
+    .feature-icon {
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, rgba(232, 93, 156, 0.15), rgba(201, 75, 156, 0.05));
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    .feature-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .feature-description {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--text-secondary);
+    }
+
+    /* Footer */
+    footer {
+      position: relative;
+      z-index: 1;
+      padding: 60px 40px;
+      text-align: center;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .footer-text {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .footer-text a {
+      color: var(--dream-glow-mid);
+      text-decoration: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .hero {
+        flex-direction: column;
+        text-align: center;
+        padding: 140px 24px 80px;
+        gap: 60px;
+      }
+
+      .hero-cta {
+        justify-content: center;
+      }
+
+      .floating-card {
+        display: none;
+      }
+
+      .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        padding: 16px 24px;
+      }
+
+      .hero-title {
+        font-size: 40px;
+      }
+
+      .phone-frame {
+        width: 280px;
+        height: 580px;
+      }
+
+      .phone-screen iframe {
+        transform: scale(0.69);
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section-title {
+        font-size: 32px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-bg"></div>
+
+  <nav>
+    <div class="logo">Dreemz</div>
+    <div class="nav-links">
+      <a href="index.html" class="active">Design Demo</a>
+      <a href="design-reasoning.html">Design Reasoning</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span>New Screen Design</span>
+      </div>
+      <h1 class="hero-title">
+        The <span>Dream Overview</span> Screen
+      </h1>
+      <p class="hero-description">
+        A sacred moment in the user journey. This screen appears after the assessment, transforming a curious visitor into an empowered dreamer ready to take their first step.
+      </p>
+      <div class="hero-cta">
+        <a href="design-reasoning.html" class="btn btn-primary">View Design Decisions</a>
+        <a href="dream-overview.html" class="btn btn-secondary">Full Screen View</a>
+      </div>
+    </div>
+
+    <div class="phone-showcase">
+      <div class="phone-glow"></div>
+      <div class="phone-frame">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <iframe src="dream-overview.html" title="Dream Overview Screen"></iframe>
+        </div>
+      </div>
+
+      <div class="floating-card floating-card-1">
+        <div class="floating-label">User State</div>
+        <div class="floating-value">
+          <span class="dot"></span>
+          Safe & Understood
+        </div>
+      </div>
+
+      <div class="floating-card floating-card-2">
+        <div class="floating-label">Next Action</div>
+        <div class="floating-value">
+          <span class="dot" style="background: var(--path-teal);"></span>
+          One Clear Step
+        </div>
+      </div>
+    </div>
+
+    <div class="scroll-indicator">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round">
+        <path d="M12 5v14M19 12l-7 7-7-7"/>
+      </svg>
+      <span>Scroll to explore</span>
+    </div>
+  </section>
+
+  <section class="features">
+    <div class="section-header">
+      <p class="section-label">Key Design Principles</p>
+      <h2 class="section-title">Built on Dreemz Values</h2>
+      <p class="section-description">
+        Every element of this screen is intentionally crafted to embody the core principles from the Dreemz vision document.
+      </p>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🏠</div>
+        <h3 class="feature-title">Safe Home Feeling</h3>
+        <p class="feature-description">
+          Dark, enveloping design creates a sanctuary. "First I'm inside, then I choose whether to open the door." No social exposure until ready.
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">✨</div>
+        <h3 class="feature-title">Dream Progress First</h3>
+        <p class="feature-description">
+          Every element contributes to dream clarity. The user's dream is displayed as a sacred artifact, precious and worth pursuing.
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🎯</div>
+        <h3 class="feature-title">One Clear Action</h3>
+        <p class="feature-description">
+          Single micro-action reduces overwhelm. "~5 minutes, Low effort" builds self-efficacy through achievable first wins.
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🧭</div>
+        <h3 class="feature-title">Personalized Path</h3>
+        <p class="feature-description">
+          Shows their unique track (Personal, Challenge, or Social). "Different People, Different Paths" - not a generic journey.
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">💫</div>
+        <h3 class="feature-title">Value Before Exposure</h3>
+        <p class="feature-description">
+          No social proof, no comparisons. Personal value comes first. The reassurance "Private by default" creates trust.
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🔄</div>
+        <h3 class="feature-title">Loop Foundation</h3>
+        <p class="feature-description">
+          Sets up the Dream Progress Loop: "I took a step, I know what's next, I have a reason to come back."
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p class="footer-text">
+      Dream Overview Screen Design for <a href="#">Dreemz</a> · Based on Vision Document Principles
+    </p>
+  </footer>
+</body>
+</html>

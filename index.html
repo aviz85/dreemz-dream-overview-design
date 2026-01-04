@@ -250,14 +250,47 @@
       border-radius: 36px;
       overflow: hidden;
       background: var(--bg-deep);
+      position: relative;
     }
 
+    /* Use zoom for better interactivity (supported in modern browsers) */
     .phone-screen iframe {
       width: 375px;
       height: 812px;
       border: none;
-      transform: scale(0.785);
-      transform-origin: top left;
+      zoom: 0.785;
+      -moz-transform: scale(0.785);
+      -moz-transform-origin: top left;
+    }
+
+    /* Fallback for Firefox which doesn't support zoom */
+    @-moz-document url-prefix() {
+      .phone-screen iframe {
+        transform: scale(0.785);
+        transform-origin: top left;
+      }
+    }
+
+    /* Interactive overlay hint */
+    .phone-screen::after {
+      content: 'Click to interact';
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 8px 16px;
+      background: rgba(0,0,0,0.7);
+      border-radius: 20px;
+      font-size: 11px;
+      color: rgba(255,255,255,0.7);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .phone-frame:hover .phone-screen::after {
+      opacity: 1;
     }
 
     /* Floating elements */

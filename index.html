@@ -271,51 +271,52 @@
       }
     }
 
-    /* Phone link wrapper */
+    /* Phone link - simple clickable wrapper */
     .phone-link {
       text-decoration: none;
       display: block;
       position: relative;
-    }
-
-    /* Clickable overlay */
-    .phone-overlay {
-      position: absolute;
-      inset: 12px;
-      border-radius: 36px;
-      background: rgba(0,0,0,0.5);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      z-index: 20;
       cursor: pointer;
     }
 
-    .phone-link:hover .phone-overlay {
-      opacity: 1;
+    .phone-link:hover .phone-frame {
+      transform: translateY(-5px);
+      box-shadow:
+        0 0 0 1px rgba(232, 93, 156, 0.3),
+        0 35px 100px rgba(0,0,0,0.6);
     }
 
-    .overlay-text {
-      padding: 16px 28px;
+    /* Always visible click badge */
+    .click-badge {
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 10px 20px;
       background: linear-gradient(135deg, var(--dream-glow-start), var(--dream-glow-end));
-      border-radius: 16px;
+      border-radius: 30px;
       color: white;
-      font-size: 15px;
+      font-size: 13px;
       font-weight: 600;
-      box-shadow: 0 8px 30px rgba(232, 93, 156, 0.4);
-      transform: translateY(10px);
-      transition: transform 0.3s ease;
+      white-space: nowrap;
+      box-shadow: 0 4px 20px rgba(232, 93, 156, 0.4);
+      z-index: 30;
+      animation: badge-pulse 2s ease-in-out infinite;
     }
 
-    .phone-link:hover .overlay-text {
-      transform: translateY(0);
+    @keyframes badge-pulse {
+      0%, 100% { transform: translateX(-50%) scale(1); }
+      50% { transform: translateX(-50%) scale(1.05); }
     }
 
-    /* Disable iframe pointer events so clicks go to overlay */
+    /* Disable iframe clicks */
     .phone-screen iframe {
       pointer-events: none;
+    }
+
+    /* Remove old overlay */
+    .phone-overlay {
+      display: none;
     }
 
     /* Floating elements */
@@ -576,16 +577,14 @@
 
     <div class="phone-showcase">
       <div class="phone-glow"></div>
-      <a href="dream-overview.html" class="phone-link" target="_blank">
+      <a href="dream-overview.html" class="phone-link">
         <div class="phone-frame">
           <div class="phone-notch"></div>
           <div class="phone-screen">
             <iframe src="dream-overview.html" title="Dream Overview Screen"></iframe>
           </div>
-          <div class="phone-overlay">
-            <span class="overlay-text">Click to Open Interactive Demo</span>
-          </div>
         </div>
+        <div class="click-badge">Click to Open Interactive Demo</div>
       </a>
 
       <div class="floating-card floating-card-1">
